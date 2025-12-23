@@ -8,6 +8,11 @@ import { EEWidgets } from "ee/widgets";
 const WidgetLoaders = new Map<string, () => Promise<typeof BaseWidget>>([
   ...EEWDSWidgets,
   ...EEWidgets,
+  // Antd Widgets
+  [
+    "ANTD_BUTTON_WIDGET",
+    async () => import("./AntdButtonWidget").then((m) => m.default),
+  ],
   // WDS Widgets
   [
     "WDS_BUTTON_WIDGET",
