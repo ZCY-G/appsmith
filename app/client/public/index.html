@@ -22,7 +22,7 @@
         // could return either boolean or string based on value
         const parseConfig = (config) => {
           if (
-            (config.startsWith("{") && config.startsWith("}")) ||
+        (config.startsWith("{") && config.endsWith("}")) ||
             config.indexOf("__") === 0 ||
             config.indexOf("$") === 0 ||
             config.indexOf("%") === 0
