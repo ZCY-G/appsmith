@@ -2,17 +2,17 @@ import { Button, type ButtonProps } from "antd";
 import React from "react";
 
 function AntdButtonComponent(props: AntdButtonComponentProps) {
-  const { href, text, ...restProps } = props;
+  const { href, label, ...restProps } = props;
 
   return (
     <Button href={href ? href : undefined} {...restProps}>
-      {text}
+      {label}
     </Button>
   );
 }
 
 export interface AntdButtonComponentProps extends ButtonProps {
-  text?: string;
+  label?: string;
 }
 
 export default AntdButtonComponent;

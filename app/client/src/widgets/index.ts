@@ -13,6 +13,10 @@ const WidgetLoaders = new Map<string, () => Promise<typeof BaseWidget>>([
     "ANTD_BUTTON_WIDGET",
     async () => import("./AntdButtonWidget").then((m) => m.default),
   ],
+  [
+    "ANTD_BUTTON_GROUP_WIDGET",
+    async () => import("./AntdButtonGroupWidget").then((m) => m.default),
+  ],
   // WDS Widgets
   [
     "WDS_BUTTON_WIDGET",

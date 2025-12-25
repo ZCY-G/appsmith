@@ -16,11 +16,15 @@ import {
 import { ValidationTypes } from "constants/WidgetValidation";
 import type { ButtonProps } from "antd";
 import type {
+  AnvilConfig,
+  AutoLayoutConfig,
   PropertyUpdates,
   SnipingModeProperty,
   WidgetMethods,
 } from "WidgetProvider/types";
 import { EventType } from "constants/AppsmithActionConstants/ActionConstants";
+import ThumbnailSVG from "../thumbnail.svg";
+import type { WidgetFeatures } from "utils/WidgetFeatures";
 
 class AntdButtonWidget extends BaseWidget<AntdButtonWidgetProps, WidgetState> {
   static type = "ANTDBUTTON_WIDGET";
@@ -29,10 +33,20 @@ class AntdButtonWidget extends BaseWidget<AntdButtonWidgetProps, WidgetState> {
     return {
       name: "AntdButton", // The display name which will be made in uppercase and show in the widgets panel ( can have spaces )
       iconSVG: IconSVG,
+      thumbnailSVG: ThumbnailSVG,
       needsMeta: false, // Defines if this widget adds any meta properties
       isCanvas: false, // Defines if this widget has a canvas within in which we can drop other widgets
       tags: [WIDGET_TAGS.BUTTONS],
       searchTags: ["antd", "click", "submit", "button"],
+    };
+  }
+
+  static getFeatures(): WidgetFeatures | null {
+    return {
+      dynamicHeight: {
+        sectionIndex: 0,
+        active: true,
+      },
     };
   }
 
@@ -53,7 +67,7 @@ class AntdButtonWidget extends BaseWidget<AntdButtonWidgetProps, WidgetState> {
       shape: "default",
       size: "middle",
       buttonType: "default",
-      text: "按钮",
+      label: "按钮",
     };
   }
 
@@ -73,13 +87,30 @@ class AntdButtonWidget extends BaseWidget<AntdButtonWidgetProps, WidgetState> {
     };
   }
 
+  static getAutoLayoutConfig(): AutoLayoutConfig | null {
+    return {
+      autoDimension: {
+        height: true,
+      },
+      disableResizeHandles: {
+        vertical: true,
+      },
+    };
+  }
+
+  static getAnvilConfig(): AnvilConfig | null {
+    return {
+      isLargeWidget: false,
+    };
+  }
+
   static getPropertyPaneContentConfig() {
     return [
       {
         sectionName: "Basic",
         children: [
           {
-            propertyName: "text",
+            propertyName: "label",
             label: "Label",
             helpText: "Sets the label of the button",
             controlType: "INPUT_TEXT",
@@ -408,9 +439,9 @@ class AntdButtonWidget extends BaseWidget<AntdButtonWidgetProps, WidgetState> {
         triggerPropertyName: "onClick",
         dynamicString: "onClick",
         event: {
-          type: EventType.ON_CLICK
-        }
-      })
+          type: EventType.ON_CLICK,
+        },
+      });
     }
   }
 
@@ -426,11 +457,11 @@ class AntdButtonWidget extends BaseWidget<AntdButtonWidgetProps, WidgetState> {
         href={this.props.href}
         htmlType={this.props.htmlType}
         iconPosition={this.props.iconPosition}
+        label={this.props.label}
         loading={this.props.loading}
         shape={this.props.shape}
         size={this.props.size}
         target={this.props.target}
-        text={this.props.text}
         type={this.props.buttonType}
         variant={this.props.variant}
       />
@@ -441,7 +472,7 @@ class AntdButtonWidget extends BaseWidget<AntdButtonWidgetProps, WidgetState> {
 export interface AntdButtonWidgetProps
   extends WidgetProps,
     Omit<ButtonProps, "type"> {
-  text?: string;
+  label?: string;
   buttonType?: ButtonProps["type"];
 }
 
