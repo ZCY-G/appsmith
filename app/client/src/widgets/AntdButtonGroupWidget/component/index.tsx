@@ -6,24 +6,53 @@ function AntdButtonGroupComponent(props: AntdButtonGroupComponentProps) {
 
   const spaceStyle = useMemo(() => ({ width, ...style }), [style, width]);
 
-  const buttons = Object.values(groupButtons || {}).map(
-    ({ href, label, ...restProps }, index) => (
-      <Button href={href ? href : undefined} key={index} {...restProps}>
+  const onButtonClick = (onClick: string | undefined) => {
+    if (onClick) {
+      props.buttonClickHandler(onClick);
+    }
+  };
+
+  const getOnClick = (
+    button: Omit<ButtonProps, "onClick"> & { label?: string; onClick?: string },
+  ) => {
+    if (!button.onClick) {
+      return;
+    }
+
+    return () => {
+      onButtonClick(button.onClick);
+    };
+  };
+
+  const buttons = Object.values(groupButtons || {}).map((button, index) => {
+    const { href, label, ...restProps } = button;
+
+    return (
+      <Button
+        {...restProps}
+        href={href ? href : undefined}
+        key={index}
+        onClick={getOnClick(button)}
+      >
         {label ?? ""}
       </Button>
-    ),
-  );
+    );
+  });
 
   return (
-    <Space style={spaceStyle} {...restProps}>
+    <Space {...restProps} style={spaceStyle}>
       {buttons}
     </Space>
   );
 }
 
 export interface AntdButtonGroupComponentProps extends SpaceProps {
-  groupButtons?: Record<string, ButtonProps & { label?: string }>;
-  width?: number
+  groupButtons?: Record<
+    string,
+    Omit<ButtonProps, "onClick"> & { label?: string; onClick?: string }
+  >;
+  width?: number;
+  buttonClickHandler: (onClick: string | undefined) => void;
 }
 
 export default AntdButtonGroupComponent;
