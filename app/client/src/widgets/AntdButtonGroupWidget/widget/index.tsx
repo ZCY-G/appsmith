@@ -23,7 +23,7 @@ import {
   BASE_BUTTON_CONFIG,
   BASE_BUTTON_DEFAULT,
   BASE_BUTTON_TYPE_CONFIG,
-} from "widgets/AntdButtonWidget/widget";
+} from "widgets/AntdButtonWidget/constants";
 import { BASE_SPACE_CONFIG } from "constants/AntdConfig";
 
 class AntdButtonGroupWidget extends BaseWidget<
